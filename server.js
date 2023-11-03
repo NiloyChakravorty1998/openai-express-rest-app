@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import healthCheckRouter from './routes/healthCheck.js';
-import request from "./config/apiRequest.js";
 import apiRequestRouter from "./routes/postRequest.js";
 
 //INITIALIZING DOTENV TO READ CONFIG

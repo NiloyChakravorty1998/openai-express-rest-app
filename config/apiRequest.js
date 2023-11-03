@@ -1,29 +1,27 @@
-import axios from "axios";
+import axios from 'axios'
 
+const request = async (prompt) => {
 
+  const apiKey = process.env.API_KEY;
+  const endpoint = `${process.env.API_BASE_URL}/completions`;
+  const inputData = {
+    model: 'text-davinci-003',
+    prompt: prompt,
+    temperature: 0,
+    max_tokens: 4000,
+  };
 
-const request  = (prompt) => {
-const apiKey = process.env.API_KEY;
-const baseURI =process.env.API_BASE_URL;
-
-//FRAMING URL TO HIT
-const endpoint = baseURI+`/completions`;
-const inputData = {
-  prompt: prompt,
-  max_tokens: 50,
-};
-axios.post(endpoint, inputData, {
-  headers: {
-    'Authorization': `Bearer ${apiKey}`,
-    'Content-Type': 'application/json',
-  }
-})
-  .then(response => {
-    // Handle the API response
-    console.log(response.data.choices[0].text);
-  })
-  .catch(error => {
+  try {
+    const response = await axios.post(endpoint, inputData, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data.choices[0].text;
+  } catch (error) {
     console.error(error);
-  });
-}
+  }
+};
+
 export default request;

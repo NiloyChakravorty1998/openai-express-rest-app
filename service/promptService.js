@@ -1,5 +1,5 @@
 import request from "../config/apiRequest.js";
-const promptService = (req,res,next) => {
+const promptService = async (req, res, next) => {
     const role = req.body.role;
     const prompt = req.body.prompt;
 
@@ -7,14 +7,22 @@ const promptService = (req,res,next) => {
         role,
         prompt
     }
-    request(prompt);
-    console.log(JSON.stringify(frameData));
+    const answer = await request(prompt);
+    if (answer) {
+        res.status(200).json(
+            {
+                prompt: frameData,
+                response: answer
+            }
+        )
+    }
+    else
+        res.status(400).json(
+            {
+                prompt: frameData,
+                response: `No valid response`
+            }
 
-    res.status(200).json(
-        {
-            prompt,
-            frameData
-        }
-    )
+        )
 }
 export default promptService;
